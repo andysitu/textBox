@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+	<meta charset='utf-8'>
+	<title>textBox</title>
+	<style>
+		#textArea {
+			margin-left: 7%;
+			margin-top: 5%;
+		}
+		textarea {
+			width: 950px;
+			height: 300px;
+			border: 1px solid black;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id='textArea'>
+		<h1>textBox</h1>
+		<textarea id="area">TESTING: HELLO</textarea>
+		<form>
+			<input type='text'> <input type='submit'>
+		</form>
+	</div>
+
+	<script>
+		window.onload = function() {
+			var here = document.getElementById("area");
+			here.innerHTML = here.innerHTML + " \n" +  "This was added with JS";
+		};
+	</script>
+
+</body>
+
+</html>
