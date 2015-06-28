@@ -16,14 +16,13 @@ function clicky() {
 	var textBox = document.getElementById("textBox");
 
 	var input = textBox.value.toUpperCase().toString();
-	display(input);
 	textBox.value = "";
 }
 
 function pressKey(e) {
 	var subBut = document.getElementById("submitButton");
 
-	if (e.keycode === 13) {
+	if (e.keyCode  === 13) {
 		subBut.click();
 		return false;
 	}
