@@ -23,14 +23,17 @@
 		<h1>textBox</h1>
 		<textarea id="area">TESTING: HELLO</textarea>
 		<form>
-			<input type='text'> <input type='submit'>
+			<input id="textBox" type='text'> <input id="submitButton" type='submit'>
 		</form>
 	</div>
 
+	<script src="display/display.js"></script>
+	<script src="menu/handlekeypress.js"></script>
+
 	<script>
 		window.onload = function() {
-			var here = document.getElementById("area");
-			here.innerHTML = here.innerHTML + " \n" +  "This was added with JS";
+			display("This was added with JS");
+			display("Testing this out some more.")
 		};
 	</script>
 
