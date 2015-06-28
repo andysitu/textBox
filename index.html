@@ -2,6 +2,10 @@
 <html lang='en'>
 
 <head>
+	<script src="player/player.js"></script>
+	<script src="menu/menu.js"></script>
+	<script src="menu/handlekeypress.js"></script>
+
 	<meta charset='utf-8'>
 	<title>textBox</title>
 	<style>
@@ -16,6 +20,8 @@
 		}
 	</style>
 
+
+
 </head>
 
 <body>
@@ -23,19 +29,11 @@
 		<h1>textBox</h1>
 		<textarea id="area">TESTING: HELLO</textarea>
 		<form>
-			<input id="textBox" type='text'> <input id="submitButton" type='submit'>
+			<input id="textBox" type='text' placeholder="Input a command"> <input id="submitButton" type="submit">
 		</form>
 	</div>
 
-	<script src="menu/menu.js"></script>
-	<script src="menu/handlekeypress.js"></script>
-
 	<script>
-		window.onload = function() {
-			display("This was added with JS");
-			display("Testing this out some more.")
-			display(displayScreens["mainMenu"]);
-		};
 	</script>
 
 </body>
