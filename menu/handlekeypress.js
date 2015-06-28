@@ -12,4 +12,5 @@ window.onload = function() {
 	textBox.onkeypress = function(e) {
 		if (e.keycode === 13)
 			subBut.click();
-};
+	};
+}
