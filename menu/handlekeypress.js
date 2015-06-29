@@ -2,7 +2,7 @@ window.onload = function() {
 	var subBut = document.getElementById("submitButton");
 	var textBox = document.getElementById("textBox");
 
-	display("Hello");
+	display(displayScreens["startMenu"]);
 
 // Functions not inputted for if text is submitted
 	subBut.onclick = clicky;
@@ -16,6 +16,7 @@ function clicky() {
 	var textBox = document.getElementById("textBox");
 
 	var input = textBox.value.toUpperCase().toString();
+	responseStor.response(input);
 	textBox.value = "";
 }
 
