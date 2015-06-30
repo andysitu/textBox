@@ -1,7 +1,7 @@
 
 
 const displayScreens = {
-	startMenu: "Hello, type \"hp\" to see health of player, \"status\" to see status of player",
+	startMenu: "Hello, type \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster",
 	playerStatus: player1["health"],
 };
 
@@ -23,6 +23,9 @@ const responseStor = {
 		monster["fightStatus"] = true;
 		monster["generateMonster"]();
 		monster["genMonMsg"]();
+	 },
+	 ATTACK() {
+	 	player1["ATTACK"]();
 	 },
 
 // response runs the functions on responseStor directly by having the values be the name of the methods.

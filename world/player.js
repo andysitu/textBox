@@ -6,4 +6,9 @@ var player1 = {
 	level: 1,
 	exp: 0,
 	gold: 0,
+	ATTACK() {
+		var damage = Math.ceil(Math.random() * 3)
+		monster["health"] -= damage;
+		display("You've done " + damage + " damage. The Monster has " + monster["health"] + " health");
+	}
 };
