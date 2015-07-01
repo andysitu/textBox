@@ -25,6 +25,7 @@ var monster = {
 				const gold = this["level"] * player1["level"] * Math.ceil(Math.random() * 5);
 				display("Monster has died. You have gained " + exp + " exp and " + gold + " gold");
 				this.fightStatus = false;
+				player1["levelUp"]();
 				display(displayScreens["startMenu"]);
 			} else {
 				display("You've done " + dmg + " damage. The Monster has " + monster["health"] + " health");
