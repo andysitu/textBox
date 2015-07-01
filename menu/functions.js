@@ -16,4 +16,5 @@ function each(list, callback) {
 function display(msg) {
 	var here = document.getElementById("area");
 	here.value = here.value +  msg + "\n";
+	here.scrollTop = here.scrollHeight; // scrolls to bottom
 }

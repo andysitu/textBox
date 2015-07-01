@@ -11,12 +11,11 @@ const responseStor = {
 		display("You have " + player1["health"] + "/" + player1["maxHealth"] + " HP");
 	 },
 	STATUS(){
-		var str = "Current status:"
-
+		var str = "Current status:";
 		each(player1, function(value, key) {
-			str = str + " " + value + " " + key;
+			if (typeof value !== "function")
+				str = str + " " + value + " " + key;
 		});
-
 		display(str);
 	 },
 	FIGHT() {
