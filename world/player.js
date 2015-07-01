@@ -9,6 +9,6 @@ var player1 = {
 	ATTACK() {
 		var damage = Math.ceil(Math.random() * 3)
 		monster["health"] -= damage;
-		display("You've done " + damage + " damage. The Monster has " + monster["health"] + " health");
+		return damage;
 	}
 };
