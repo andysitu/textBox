@@ -1,5 +1,4 @@
 
-
 const displayScreens = {
 	startMenu: "Type \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster",
 	playerStatus: player1["health"],
@@ -8,20 +7,25 @@ const displayScreens = {
 // obj storing functions for response by input of player. 
 const responseStor = {
 	HP(){
-		display("You have " + player1["health"] + "/" + player1["maxHealth"] + " HP");
+		display("You have " + player1["health"] + "/" + player1["max health"] + " HP");
 	 },
 	STATUS(){
 		var str = "Current status:";
 		each(player1, function(value, key) {
 			if (typeof value !== "function")
-				str = str + " " + value + " " + key;
+				str = str + " " + value + " " + key + ",";
 		});
+		str = str.slice(0, -1);
 		display(str);
 	 },
 	FIGHT() {
-		monster["fightStatus"] = true;
-		monster["generateMonster"]();
-		monster["genMonMsg"]();
+		if (!monster["fightStatus"]) {
+			monster["fightStatus"] = true;
+			monster["generateMonster"]();
+			monster["genMonMsg"]();
+		} else {
+			display("You're already fight a monster.");
+		}
 	 },
 	 ATTACK() {
 	 	// ATTACK calculates player damge & returns the damage into rewarder method 
