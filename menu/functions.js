@@ -17,3 +17,17 @@ function display(msg) {
 	here.value = here.value +  msg + "\n";
 	here.scrollTop = here.scrollHeight; // scrolls to bottom
 }
+
+function displayStr(startMSG, list, func) {
+	var str = startMSG || "";
+
+	if (list instanceof Array) {
+		for (var i = 0; i < list.length; i++)
+			str = str + func(list[i], i, str);
+	} else {
+		for (var key in list)
+			str = str + func(list[key], key, str);
+	}
+
+	display(str.slice(0, -1));
+}
