@@ -19,10 +19,10 @@ var player1 = {
 	},
 	levelUp() {
 		if (this.exp >= this.level * this.level * 5) {
-			this.health = this["max health"] = this.level * 35;
 			this.level++;
+			this.health = this["max health"] = this.level * 35;
 			this.exp = 0;
 			display("Congraultions! You're now level " + this.level);
 		}
-	},
+	}
 };

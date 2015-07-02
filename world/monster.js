@@ -25,6 +25,7 @@ var monster = {
 				const exp = this["level"] * player1["level"];
 				player1["exp"] += exp;
 				const gold = this["level"] * player1["level"] * Math.ceil(Math.random() * 5);
+				player1["gold"] += gold;
 				display("You've done " + dmg + " damage.")
 				display("Monster has died. You have gained " + exp + " exp and " + gold + " gold");
 				this.fightStatus = false;
@@ -40,10 +41,10 @@ var monster = {
 
 	attack(status) {
 		// if player has defender then monster damage is cut by 75% and rounds it up.
+		var damage = Math.ceil((Math.random() * this["level"] * player1["level"] * 25 +
+							this["level"] * player1["level"] + 75) / 100);
 		if (status === "DEFENDED")
-			var damage = Math.ceil(this["level"] * player1["level"] * 0.25);
-		else
-			var damage = this["level"] * player1["level"];
+			damage = Math.ceil(damage * 0.25);
 
 		player1["health"] -= damage;
 		display("The monster has done " + damage + " damage.");
