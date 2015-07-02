@@ -15,7 +15,8 @@ var monster = {
 		this["mana"] = player1["level"] * this["level"] + player1["level"] * this["level"] * Math.ceil(Math.random() * 0.5);
 	},
 
-	genMonMsg() { display("You've encounted a monster! Level " + this["level"] + " and HP " + this["health"] + "."); },
+	genMonMsg() { 	display("You've encounted a monster! Level " + this["level"] + " and HP " + this["health"] + ".");
+					display("Type \"attack\" to attack.") },
 
 	rewarder(dmg) {
 		if (this.fightStatus == true) {
@@ -23,6 +24,7 @@ var monster = {
 				const exp = this["level"] * player1["level"];
 				player1["exp"] += exp;
 				const gold = this["level"] * player1["level"] * Math.ceil(Math.random() * 5);
+				display("You've done " + dmg + " damage.")
 				display("Monster has died. You have gained " + exp + " exp and " + gold + " gold");
 				this.fightStatus = false;
 				player1["levelUp"]();
@@ -33,6 +35,12 @@ var monster = {
 		} else {
 			display("You're not fighting a monster!");
 		}
+	},
+
+	attack() {
+		var damage = this["level"] * player1["level"]
+		player1["health"] -= damage;
+		display("The monster has done " + damage + " damage.");
 	},
 
 }

@@ -17,6 +17,7 @@ function clicky() {
 
 	var input = textBox.value.toUpperCase().toString();
 	responseStor.response(input);
+	controller.attackDeecider(input);
 	textBox.value = "";
 }
 
@@ -27,4 +28,4 @@ function pressKey(e) {
 		subBut.click();
 		return false;
 	}
-};
+}
