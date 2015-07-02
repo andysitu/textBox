@@ -1,5 +1,4 @@
 
-
 // each function works for objects and array.
 function each(list, callback) {
 	if (Array.isArray(list)) {

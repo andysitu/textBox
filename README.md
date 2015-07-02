@@ -1,6 +1,8 @@
 # textBox
 
 To Do
-Create fight/ battle sequence
-	Once in fight, then after each action of player, the monster attacks. Doesn't matter what the action is.
-Reward player if monster dies
+	Add abilities from player
+	Add abilities from monster
+	Add items
+	Add potions/ methods to heal
+	More tradeoffs

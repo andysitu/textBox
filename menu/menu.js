@@ -33,7 +33,7 @@ const responseStor = {
 	 	monster["rewarder"](player1["ATTACK"]());
 	 },
 	 DEFEND() {
-	 	// empty for now
+	 	display("You have defended.");
 	 },
 
 // response runs the functions on responseStor directly by having the values be the name of the methods.
