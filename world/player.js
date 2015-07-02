@@ -6,10 +6,16 @@ var player1 = {
 	level: 1,
 	exp: 0,
 	gold: 0,
-	ATTACK() {
-		var damage = Math.ceil(Math.random() * 3 * player1["level"]);
-		monster["health"] -= damage;
-		return damage;
+	ATTACK(dmg) {
+		// if dmg is empty, then it'll be a regular attack
+		if (dmg) {
+			monster["health"] -= dmg;
+			return dmg;
+		} else {
+			var damage = Math.ceil(Math.random() * 3 * player1["level"]);
+			monster["health"] -= damage;
+			return damage;
+		}
 	},
 	levelUp() {
 		if (this.exp >= this.level * this.level * 5) {
