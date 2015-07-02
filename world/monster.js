@@ -16,8 +16,9 @@ var monster = {
 	},
 
 	genMonMsg() { 	display("You've encounted a monster! Level " + this["level"] + " and HP " + this["health"] + ".");
-					display("Type \"attack\" to attack.") },
+					display("Type \"attack\" to attack, \"defend\" to defend.") },
 
+	// Shows damage player has done and rewards player if monster has died.
 	rewarder(dmg) {
 		if (this.fightStatus == true) {
 			if (this.health <= 0)	{
@@ -37,8 +38,13 @@ var monster = {
 		}
 	},
 
-	attack() {
-		var damage = this["level"] * player1["level"]
+	attack(status) {
+		// if player has defender then monster damage is cut by 75% and rounds it up.
+		if (status === "DEFENDED")
+			var damage = Math.ceil(this["level"] * player1["level"] * 0.25);
+		else
+			var damage = this["level"] * player1["level"];
+
 		player1["health"] -= damage;
 		display("The monster has done " + damage + " damage.");
 	},

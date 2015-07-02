@@ -2,7 +2,10 @@ var controller = {
 
 	// handles when monster attacks player by input being the command the player uses
 	attackDeecider(input) {
-		if ( (this.whenToAttack).indexOf(input) > -1 && (monster["fightStatus"]) ) {
+		if (input === "DEFEND") {
+			monster["attack"]("DEFENDED");
+
+		} else if ( (this.whenToAttack).indexOf(input) > -1 && (monster["fightStatus"]) ) {
 			monster["attack"]();
 		}
 	},

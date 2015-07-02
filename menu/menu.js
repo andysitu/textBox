@@ -32,6 +32,9 @@ const responseStor = {
 	 	// which checks if monster is dead and rewards the player if it is.
 	 	monster["rewarder"](player1["ATTACK"]());
 	 },
+	 DEFEND() {
+	 	// empty for now
+	 },
 
 // response runs the functions on responseStor directly by having the values be the name of the methods.
 	response(value) {
