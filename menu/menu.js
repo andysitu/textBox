@@ -1,6 +1,6 @@
 
 const displayScreens = {
-	startMenu: "Type \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster",
+	startMenu: "Type \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.",
 	playerStatus: player1["health"],
 };
 
@@ -10,13 +10,12 @@ const responseStor = {
 		display("You have " + player1["health"] + "/" + player1["max health"] + " HP");
 	 },
 	STATUS(){
-		var str = "Current status:";
-		each(player1, function(value, key) {
+		displayStr("Current Status:", player1, function(value, key, str) {
 			if (typeof value !== "function")
-				str = str + " " + value + " " + key + ",";
-		});
-		str = str.slice(0, -1);
-		display(str);
+				return " " + value + " " + key + ",";
+			else
+				return "";
+		})
 	 },
 	FIGHT() {
 		if (!monster["fightStatus"]) {
@@ -34,6 +33,13 @@ const responseStor = {
 	 },
 	 DEFEND() {
 	 	display("You have defended.");
+	 },
+	 STORE() {
+	 	if (!monster["fightStatus"]) {
+			
+		} else {
+			display("You're fighting a monster.");
+		}
 	 },
 
 // response runs the functions on responseStor directly by having the values be the name of the methods.
