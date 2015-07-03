@@ -22,7 +22,7 @@ var player1 = {
 			this.level++;
 			this.health = this["max health"] = this.level * 35;
 			this.exp = 0;
-			display("Congraultions! You're now level " + this.level);
+			display("Congratulations! You're now level " + this.level);
 		}
 	}
 };
