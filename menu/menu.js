@@ -1,6 +1,6 @@
 
 const displayScreens = {
-	startMenu: "Type \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.",
+	startMenu: "Type \"menu\" for the menu, \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.",
 	playerStatus: player1["health"],
 };
 
@@ -23,33 +23,36 @@ const responseStor = {
 			monster["generateMonster"]();
 			monster["genMonMsg"]();
 		} else {
-			display("You're already fight a monster.");
+			display("You're already fighting a monster.");
 		}
 	 },
 	 ATTACK(input) {
 	 	// ATTACK calculates player damge & returns the damage into rewarder method 
 	 	// which checks if monster is dead and rewards the player if it is.
-	 	monster["rewarder"](player1["ATTACK"]());
-	 	controller.attackDeecider(input);
+	 	if (monster["fightStatus"]) {
+		 	monster["rewarder"](player1["ATTACK"]());
+		 	monster["attack"]();
+		} 	else {
+	 		display("You're not in combat.");
+	 	}
 	 },
 	 DEFEND(input) {
 	 	if (monster["fightStatus"]) {
 	 		display("You have defended.");
-	 		controller.attackDeecider(input);
+	 		monster["attack"]("DEFENDED");
 		} 	else {
 	 		display("You're not in combat.");
 	 	}
 	 },
 	 STORE() {
-	 	if (!monster["fightStatus"]) {
-			display("You're not in combat.");
+	 	if (monster["fightStatus"]) {
+			display("You're in combat. Come here when it's over!");
 		}
 	 },
 	 DODGE(input) {
 	 	// 1/3 chance of monster's attack missing.
  		if (monster["fightStatus"]) {
-	 		display("You have dodged.");
-	 		controller.attackDeecider(input);
+	 		monster["attack"]("DODGED");
 	 	} else {
 	 		display("You're not in combat.");
 	 	}
@@ -61,5 +64,9 @@ const responseStor = {
 			this[value](value);
 		else
 			display("The command " + value + " doesn't exist. Please try again.")
+	 },
+
+	 HELP() {
+		display(displayScreens["startMenu"]);
 	 },
 }
