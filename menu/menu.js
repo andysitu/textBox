@@ -26,15 +26,17 @@ const responseStor = {
 			display("You're already fight a monster.");
 		}
 	 },
-	 ATTACK() {
+	 ATTACK(input) {
 	 	// ATTACK calculates player damge & returns the damage into rewarder method 
 	 	// which checks if monster is dead and rewards the player if it is.
 	 	monster["rewarder"](player1["ATTACK"]());
+	 	controller.attackDeecider(input);
 	 },
-	 DEFEND() {
-	 	if (monster["fightStatus"])
+	 DEFEND(input) {
+	 	if (monster["fightStatus"]) {
 	 		display("You have defended.");
-	 	else {
+	 		controller.attackDeecider(input);
+		} 	else {
 	 		display("You're not in combat.");
 	 	}
 	 },
@@ -43,11 +45,12 @@ const responseStor = {
 			display("You're not in combat.");
 		}
 	 },
-	 DODGE() {
+	 DODGE(input) {
 	 	// 1/3 chance of monster's attack missing.
- 		if (monster["fightStatus"])
+ 		if (monster["fightStatus"]) {
 	 		display("You have dodged.");
-	 	else {
+	 		controller.attackDeecider(input);
+	 	} else {
 	 		display("You're not in combat.");
 	 	}
 	 },
@@ -55,7 +58,7 @@ const responseStor = {
 // response runs the functions on responseStor directly by having the values be the name of the methods.
 	response(value) {
 		if (this[value])
-			this[value]();
+			this[value](value);
 		else
 			display("The command " + value + " doesn't exist. Please try again.")
 	 },

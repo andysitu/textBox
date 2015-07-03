@@ -24,7 +24,7 @@ var monster = {
 			if (this.health <= 0)	{
 				const exp = this["level"] * player1["level"];
 				player1["exp"] += exp;
-				const gold = this["level"] * player1["level"] * Math.ceil(Math.random() * 5);
+				const gold = exp * Math.ceil(Math.random() * 5);
 				player1["gold"] += gold;
 				display("You've done " + dmg + " damage.")
 				display("Monster has died. You have gained " + exp + " exp and " + gold + " gold");

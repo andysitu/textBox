@@ -16,8 +16,9 @@ function clicky() {
 	var textBox = document.getElementById("textBox");
 
 	var input = textBox.value.toUpperCase().toString();
+
 	responseStor.response(input);
-	controller.attackDeecider(input);
+
 	textBox.value = "";
 }
 
