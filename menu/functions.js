@@ -29,5 +29,5 @@ function displayStr(startMSG, list, func) {
 			str = str + func(list[key], key, str);
 	}
 
-	display(str.slice(0, -1));
+	display(str.slice(0, -1) + "\n");
 }

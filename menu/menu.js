@@ -1,6 +1,6 @@
 
 const displayScreens = {
-	startMenu: "Type \"menu\" for the menu, \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.",
+	startMenu: "Type \"menu\" for the menu, \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.\n",
 	playerStatus: player1["health"],
 };
 
@@ -23,7 +23,7 @@ const responseStor = {
 			monster["generateMonster"]();
 			monster["genMonMsg"]();
 		} else {
-			display("You're already fighting a monster.");
+			display("You're already fighting a monster.\n");
 		}
 	 },
 	 ATTACK(input) {
@@ -33,7 +33,7 @@ const responseStor = {
 		 	monster["rewarder"](player1["ATTACK"]());
 		 	monster["attack"]();
 		} 	else {
-	 		display("You're not in combat.");
+	 		display("You're not in combat.\n");
 	 	}
 	 },
 	 DEFEND(input) {
@@ -41,12 +41,12 @@ const responseStor = {
 	 		display("You have defended.");
 	 		monster["attack"]("DEFENDED");
 		} 	else {
-	 		display("You're not in combat.");
+	 		display("You're not in combat.\n");
 	 	}
 	 },
 	 STORE() {
 	 	if (monster["fightStatus"]) {
-			display("You're in combat. Come here when it's over!");
+			display("You're in combat. Come here when it's over!\n");
 		}
 	 },
 	 DODGE(input) {
@@ -54,7 +54,7 @@ const responseStor = {
  		if (monster["fightStatus"]) {
 	 		monster["attack"]("DODGED");
 	 	} else {
-	 		display("You're not in combat.");
+	 		display("You're not in combat.\n");
 	 	}
 	 },
 
