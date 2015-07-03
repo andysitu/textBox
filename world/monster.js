@@ -16,7 +16,7 @@ var monster = {
 	},
 
 	genMonMsg() { 	display("You've encounted a monster! Level " + this["level"] + " and HP " + this["health"] + ".");
-					display("Type \"attack\" to attack, \"defend\" to defend.") },
+					display("Type \"attack\" to attack, \"defend\" to defend, \"dodge\" to dodge.") },
 
 	// Shows damage player has done and rewards player if monster has died.
 	rewarder(dmg) {
@@ -45,6 +45,14 @@ var monster = {
 							this["level"] * player1["level"] + 75) / 100);
 		if (status === "DEFENDED")
 			damage = Math.ceil(damage * 0.25);
+		if (status === "DODGED")
+			if (Math.ceil(Math.random() * 3) <= 1) {
+				display("You evaded the attack.");
+				damage= 0;
+			} else {
+				display("Dodge has failed leaving you even more vulnerable.");
+				damage = Math.ceil(damage * 1.15)
+			}
 
 		player1["health"] -= damage;
 		display("The monster has done " + damage + " damage.");

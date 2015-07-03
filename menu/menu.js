@@ -32,14 +32,24 @@ const responseStor = {
 	 	monster["rewarder"](player1["ATTACK"]());
 	 },
 	 DEFEND() {
-	 	display("You have defended.");
+	 	if (monster["fightStatus"])
+	 		display("You have defended.");
+	 	else {
+	 		display("You're not in combat.");
+	 	}
 	 },
 	 STORE() {
 	 	if (!monster["fightStatus"]) {
-			
-		} else {
-			display("You're fighting a monster.");
+			display("You're not in combat.");
 		}
+	 },
+	 DODGE() {
+	 	// 1/3 chance of monster's attack missing.
+ 		if (monster["fightStatus"])
+	 		display("You have dodged.");
+	 	else {
+	 		display("You're not in combat.");
+	 	}
 	 },
 
 // response runs the functions on responseStor directly by having the values be the name of the methods.
