@@ -22,5 +22,5 @@ var player1 = {
 		this.health = this["max health"] = this.level * 35;
 		this.exp = 0;
 		display("Congratulations! You leveled up to " + this.level + ".");
-	}
+	},
 };

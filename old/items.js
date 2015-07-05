@@ -7,5 +7,5 @@ var items = {
 			}
 	},
 
-	equipped: [],
+	equipped: []
 };

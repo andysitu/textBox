@@ -1,6 +1,4 @@
 // Generates monster based on level of the player
-//
-// Might give it abilities and skills later
 
 var monster = {
 	fightStatus: false, // player can only attack monster when true
