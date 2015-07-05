@@ -24,9 +24,10 @@ var monster = {
 			player1["exp"] += exp;
 			const gold = exp * Math.ceil(Math.random() * 5);
 			player1["gold"] += gold;
-			display("After doing " + dmg + " damage, you killed the monster. You have gained " + exp + " exp and " + gold + " gold");
+			display("After doing " + dmg + " damage, you killed the monster. You have gained " + exp + " exp and " + gold + " gold\n");
 			this.fightStatus = false;
-			player1["levelUp"]();
+			if (player1.exp >= player1.level * player1.level * 5)
+				player1["levelUp"]();
 		} else {
 			display("You've done " + dmg + " damage. The Monster has " + monster["health"] + " health.");
 		}
@@ -35,21 +36,23 @@ var monster = {
 
 	attack(status) {
 		// if player has defender then monster damage is cut by 75% and rounds it up.
-		var damage = Math.ceil((Math.random() * this["level"] * player1["level"] * 25 +
-							this["level"] * player1["level"] + 75) / 100);
-		if (status === "DEFENDED")
-			damage = Math.ceil(damage * 0.25);
-		if (status === "DODGED")
-			if (Math.ceil(Math.random() * 3) <= 1) {
-				display("You evaded the attack.");
-				damage= 0;
-			} else {
-				display("Dodge has failed leaving you even more vulnerable.");
-				damage = Math.ceil(damage * 1.15)
-			}
+		if (this["health"] > 0) {
+			var damage = Math.ceil((Math.random() * this["level"] * player1["level"] * 25 +
+								this["level"] * player1["level"] + 75) / 80);
+			if (status === "DEFENDED")
+				damage = Math.ceil(damage * 0.25);
+			if (status === "DODGED")
+				if (Math.ceil(Math.random() * 3) <= 1) {
+					display("You evaded the attack.");
+					damage= 0;
+				} else {
+					display("Dodge has failed leaving you even more vulnerable.");
+					damage = Math.ceil(damage * 1.15)
+				}
 
-		player1["health"] -= damage;
-		display("The monster did " + damage + " damage.\n");
+			player1["health"] -= damage;
+			display("The monster did " + damage + " damage.\n");
+		}
 	},
 
 }

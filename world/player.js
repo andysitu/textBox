@@ -9,7 +9,7 @@ var player1 = {
 	ATTACK(dmg) {
 		// if dmg is empty, then it'll be a regular attack
 		if (dmg) {
-			monster["health"] -= dmg;
+			monster["health"] -=  Math.ceil(Math.random() * dmg * player1["level"]);
 			return dmg;
 		} else {
 			var damage = Math.ceil(Math.random() * 3 * player1["level"]);
@@ -18,11 +18,9 @@ var player1 = {
 		}
 	},
 	levelUp() {
-		if (this.exp >= this.level * this.level * 5) {
-			this.level++;
-			this.health = this["max health"] = this.level * 35;
-			this.exp = 0;
-			display("Congratulations! You leveled up to " + this.level + ".");
-		}
+		this.level++;
+		this.health = this["max health"] = this.level * 35;
+		this.exp = 0;
+		display("Congratulations! You leveled up to " + this.level + ".");
 	}
 };
