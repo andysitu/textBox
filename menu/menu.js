@@ -47,6 +47,8 @@ const responseStor = {
 	 STORE() {
 	 	if (monster["fightStatus"]) {
 			display("You're in combat. Come here when it's over!\n");
+		} else {
+			store["displayItems"]();
 		}
 	 },
 	 DODGE(input) {

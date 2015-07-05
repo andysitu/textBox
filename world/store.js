@@ -1,19 +1,11 @@
 var store = {
-	items: {
-		sword : {
-			desc: "A dependable sword. First-rate.",
-			cost: 15,
-			func() {
-				return 10;
-			}
-		}
-	},
+	selling: ["sword"],
 
-	displayItems() {
-		var str = "";
-
-		for (var key in items) {
-
-		}
+	displayItems() {displayStr("Welcome! What would you like to buy?\n", items, 
+		function(value, key, str){
+				if ( this["selling"].indexOf(key) ) {
+					return "Works";
+				}
+			})
 	},
 };
