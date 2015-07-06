@@ -83,6 +83,14 @@ var monster = {
 
 
 var store = {
+	status: false,
+	changeStatus(input) {
+		if (input) {
+			this.status = true;
+		} else {
+			this.status = false;
+		}
+	},
 	displayItems() {displayStr("Welcome! What would you like to buy?\n", items, 
 		function(value, key, str){
 			if (value["cost"]) {
@@ -128,6 +136,8 @@ const responseStor = {
 		if (this["normal"][input]) {
 			if (monster["fightStatus"]) {
 				this["battle"][input]();
+			} else if (store["status"]) {
+				this["shopping"][input]();
 			} else {
 			this["normal"][input]();
 			}
@@ -157,23 +167,23 @@ const responseStor = {
 				display("You're already fighting a monster.\n");
 			}
 		 },
-		 ATTACK(input) {
+		ATTACK(input) {
 		 	display(displayScreens["noCombat"]);
 		 },
-		 DEFEND(input) {
+		DEFEND(input) {
 		 	display(displayScreens["noCombat"]);
 		 },
-		 DODGE(input) {
+		DODGE(input) {
 	 		display(displayScreens["noCombat"]);
 		 },		 
-		 STORE() {
+		STORE() {
 		 	if (monster["fightStatus"]) {
+		 		changeStatus(true);
 				display("You're in combat. Come here when it's over!\n");
 			} else {
 				store["displayItems"]();
 			}
 		 },
-
 
 		 HELP() {
 			display(displayScreens["startMenu"]);
@@ -184,27 +194,23 @@ const responseStor = {
 		HP(){
 			display("You have " + player1["health"] + "/" + player1["max health"] + " HP");
 		 },
-		STATUS(){
-			displayStr("Current Status:", player1, function(value, key, str) {
-				if (typeof value !== "function")
-					return " " + value + " " + key + ",";
-				else
-					return "";
-			})
-		 },
-		 ATTACK(input) {
+		STATUS() { responseStor["normal"]["STATUS"]() },
+		ATTACK(input) {
 		 	// ATTACK calculates player damge & returns the damage into rewarder method 
 		 	// which checks if monster is dead and rewards the player if it is.
 		 	monster["rewarder"](player1["ATTACK"]());
 		 	monster["attack"]();
 		 },
-		 DEFEND(input) {
+		DEFEND(input) {
 	 		display("You have defended.");
 	 		monster["attack"]("DEFENDED");
 		 },
-		 DODGE(input) {
+		DODGE(input) {
 		 	// 1/3 chance of monster's attack missing.
 	 		monster["attack"]("DODGED");
 		 },		 		 		 
 	},
+	shopping: {
+
+	}
 };
