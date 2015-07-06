@@ -118,14 +118,20 @@ var items = {
 const displayScreens = {
 	startMenu: "Type \"menu\" for the menu, \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.\n",
 	playerStatus: player1["health"],
+	noCombat: "You're not in combat. Type \"fight\" to do so.\n"
 };
 
 // obj storing functions for response by input of player. 
 const responseStor = {
 
 	checkResponse(input) {
-		if (this["normal"][input])
+		if (this["normal"][input]) {
+			if (monster["fightStatus"]) {
+				this["battle"][input]();
+			} else {
 			this["normal"][input]();
+			}
+		}
 		else
 			display("The command " + value + " doesn't exist. Please try again.")
 	},
@@ -152,23 +158,14 @@ const responseStor = {
 			}
 		 },
 		 ATTACK(input) {
-		 	// ATTACK calculates player damge & returns the damage into rewarder method 
-		 	// which checks if monster is dead and rewards the player if it is.
-		 	if (monster["fightStatus"]) {
-			 	monster["rewarder"](player1["ATTACK"]());
-			 	monster["attack"]();
-			} 	else {
-		 		display("You're not in combat.\n");
-		 	}
+		 	display(displayScreens["noCombat"]);
 		 },
 		 DEFEND(input) {
-		 	if (monster["fightStatus"]) {
-		 		display("You have defended.");
-		 		monster["attack"]("DEFENDED");
-			} 	else {
-		 		display("You're not in combat.\n");
-		 	}
+		 	display(displayScreens["noCombat"]);
 		 },
+		 DODGE(input) {
+	 		display(displayScreens["noCombat"]);
+		 },		 
 		 STORE() {
 		 	if (monster["fightStatus"]) {
 				display("You're in combat. Come here when it's over!\n");
@@ -176,14 +173,7 @@ const responseStor = {
 				store["displayItems"]();
 			}
 		 },
-		 DODGE(input) {
-		 	// 1/3 chance of monster's attack missing.
-	 		if (monster["fightStatus"]) {
-		 		monster["attack"]("DODGED");
-		 	} else {
-		 		display("You're not in combat.\n");
-		 	}
-		 },
+
 
 		 HELP() {
 			display(displayScreens["startMenu"]);
@@ -205,28 +195,16 @@ const responseStor = {
 		 ATTACK(input) {
 		 	// ATTACK calculates player damge & returns the damage into rewarder method 
 		 	// which checks if monster is dead and rewards the player if it is.
-		 	if (monster["fightStatus"]) {
-			 	monster["rewarder"](player1["ATTACK"]());
-			 	monster["attack"]();
-			} 	else {
-		 		display("You're not in combat.\n");
-		 	}
+		 	monster["rewarder"](player1["ATTACK"]());
+		 	monster["attack"]();
 		 },
 		 DEFEND(input) {
-		 	if (monster["fightStatus"]) {
-		 		display("You have defended.");
-		 		monster["attack"]("DEFENDED");
-			} 	else {
-		 		display("You're not in combat.\n");
-		 	}
+	 		display("You have defended.");
+	 		monster["attack"]("DEFENDED");
 		 },
 		 DODGE(input) {
 		 	// 1/3 chance of monster's attack missing.
-	 		if (monster["fightStatus"]) {
-		 		monster["attack"]("DODGED");
-		 	} else {
-		 		display("You're not in combat.\n");
-		 	}
+	 		monster["attack"]("DODGED");
 		 },		 		 		 
 	},
 };
