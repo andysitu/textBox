@@ -1,5 +1,3 @@
-
-
 var player1 = {
 	health: 50,
 	"max health": 50,
@@ -24,7 +22,6 @@ var player1 = {
 		display("Congratulations! You leveled up to " + this.level + ".");
 	},
 };
-
 
 
 // Generates monster based on level of the player
@@ -85,26 +82,32 @@ var monster = {
 }
 
 
-
 var store = {
-	selling: ["sword"],
-
 	displayItems() {displayStr("Welcome! What would you like to buy?\n", items, 
 		function(value, key, str){
-				if ( this["selling"].indexOf(key) ) {
-					return "Works";
-				}
-			})
+			if (value["cost"]) {
+				return " " + key + ": \t" + value["desc"] + " " + value["cost"] + " gold\n";
+			} else {
+				return "";
+			}
+		})
 	},
 };
 
 var items = {
-	sword : {
-			desc: "A dependable sword. First-rate.",
-			cost: 15,
-			attack() {
-				return 10;
-			}
+	"sword": {
+		desc: "A dependable sword. First-rate.",
+		cost: 15,
+		attack() {
+			return 10;
+		}
+	},
+	"Super Sword": {
+		desc: "A super amazing sword.",
+		cost: 1500,
+		attack() {
+			return 50;
+		}
 	},
 
 	equipped: []
@@ -184,4 +187,4 @@ const responseStor = {
 	 HELP() {
 		display(displayScreens["startMenu"]);
 	 },
-}
+};
