@@ -4,9 +4,9 @@ var player1 = {
 	level: 1,
 	exp: 0,
 	gold: 0,
-	ATTACK(dmg) {
+	ATTACK() {
 		// if dmg is empty, then it'll be a regular attack
-		if (dmg) {
+		if (this.equipped[0]) {
 			monster["health"] -=  Math.ceil(Math.random() * dmg * player1["level"]);
 			return dmg;
 		} else {
@@ -19,7 +19,16 @@ var player1 = {
 		this.level++;
 		this.health = this["max health"] = this.level * 35;
 		this.exp = 0;
-		display("Congratulations! You leveled up to " + this.level + ".");
+		display("Congratulations! You leveled up to " + this.level + ".\n");
+	},
+	equip(itemName) {
+		var item = itemName.toLowerCase();
+		if ( this.inventory.indexOf(item) >= 0 ) {
+			this.equipped[items[item]["slot"]] = item;
+			display("You've equipped " + item + ". \n");
+		} else {
+			display("You don't have " + item + ".\n");
+		}
 	},
 
 	equipped: [], // 0: weapons;
@@ -42,7 +51,7 @@ var monster = {
 		this["mana"] = player1["level"] * this["level"] + player1["level"] * this["level"] * Math.ceil(Math.random() * 0.5);
 	},
 
-	genMonMsg() { 	display("You've encounted a monster! Level " + this["level"] + " and HP " + this["health"] + ". Type \"attack\" to attack, \"defend\" to defend, \"dodge\" to dodge.\n") },
+	genMonMsg() { 	display("You've encounted a monster! Level " + this["level"] + " and HP " + this["health"] + ". Type \"attack\" to attack, \"defend\" to defend, \"dodge\" to dodge., \"status\" to check status, \"equip\" to equip an item.\n") },
 
 	// Shows damage player has done and rewards player if monster has died.
 	rewarder(dmg) {
@@ -68,7 +77,7 @@ var monster = {
 								this["level"] * player1["level"] + 75) / 80);
 			if (status === "DEFENDED")
 				damage = Math.ceil(damage * 0.25);
-			if (status === "DODGED")
+			if (status === "DODGED") {
 				if (Math.ceil(Math.random() * 3) <= 1) {
 					display("You evaded the attack.");
 					damage= 0;
@@ -76,6 +85,7 @@ var monster = {
 					display("Dodge has failed leaving you even more vulnerable.");
 					damage = Math.ceil(damage * 1.15)
 				}
+			}
 
 			player1["health"] -= damage;
 			display("The monster did " + damage + " damage.\n");
@@ -110,7 +120,7 @@ var store = {
 			if (player1["gold"] >= items[itemName]["cost"]) {
 				player1["gold"] -= items[itemName]["cost"];
 				player1["inventory"].push(itemName);
-				display("You've bought a" + itemName + "\n");
+				display("You've bought a " + itemName + "\n");
 			} else {
 				display("You don't have enough gold.");
 			}
@@ -123,7 +133,7 @@ var store = {
 
 var items = {
 	"sword": {
-		desc: "A dependable sword. First-rate.",
+		desc: "A dependable sword.",
 		cost: 15,
 		slot: 0,
 		attack() {
@@ -142,7 +152,7 @@ var items = {
 
 
 const displayScreens = {
-	startMenu: "Type \"menu\" for the menu, \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.\n",
+	startMenu: "Type \"menu\" for the menu, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.\n",
 	noCombat: "You're not in combat. Type \"fight\" to do so.\n",
 };
 
@@ -150,22 +160,23 @@ const displayScreens = {
 const responseStor = {
 
 	checkResponse(input) {
+		var result = /(\w*)\s*([\w\s]*)/.exec(input);
+
 		if (monster["fightStatus"]) {
-			if (this["battle"][input]) {
-				this["battle"][input]();
+			if (this["battle"][result[1]]) {
+				this["battle"][result[1]](result[2]);
 			} else {
 				display("You're currently fighting. Please enter another command.\n");
 			}
 		} else if (store["status"]) {
-			var result = /(\w*)\s*([\w\s]*)/.exec(input);
 			if (this["shopping"][result[1]]) {
 				this["shopping"][result[1]](result[2]);
 			} else {
-				display("The command " + result[1] + " doesn't exist while shopping. Please try again.\n");
+				display("The command " + result[1] + " doesn't exist while shopping. Please try again. Type \"exit\" to exit.\n");
 			}
 		} else {
-			if (this["normal"][input]) {
-				this["normal"][input]();
+			if (this["normal"][result[1]]) {
+				this["normal"][result[1]](result[2]);
 			} else {
 				display("The command " + input + " doesn't exist. Please try again.\n");
 			}
@@ -173,9 +184,6 @@ const responseStor = {
 	},
 
 	normal: {
-		HP(){
-			display("You have " + player1["health"] + "/" + player1["max health"] + " HP");
-		 },
 		STATUS(){
 			displayStr("Current Status:", player1, function(value, key, str) {
 				if (typeof value !== "function") {
@@ -198,13 +206,13 @@ const responseStor = {
 				display("You're already fighting a monster.\n");
 			}
 		 },
-		ATTACK(input) {
+		ATTACK() {
 		 	display(displayScreens["noCombat"]);
 		 },
-		DEFEND(input) {
+		DEFEND() {
 		 	display(displayScreens["noCombat"]);
 		 },
-		DODGE(input) {
+		DODGE() {
 	 		display(displayScreens["noCombat"]);
 		 },		 
 		STORE() {
@@ -216,6 +224,9 @@ const responseStor = {
 				store["changeStatus"](true);
 			}
 		 },
+		 EQUIP(itemName) {
+		 	player1.equip(itemName);
+		 },
 
 		 HELP() {
 			display(displayScreens["startMenu"]);
@@ -223,24 +234,26 @@ const responseStor = {
 	},
 
 	battle: {
-		HP(){
-			display("You have " + player1["health"] + "/" + player1["max health"] + " HP");
-		 },
 		STATUS() { responseStor["normal"]["STATUS"]() },
-		ATTACK(input) {
+		ATTACK() {
 		 	// ATTACK calculates player damge & returns the damage into rewarder method 
 		 	// which checks if monster is dead and rewards the player if it is.
 		 	monster["rewarder"](player1["ATTACK"]());
 		 	monster["attack"]();
 		 },
-		DEFEND(input) {
+		DEFEND() {
 	 		display("You have defended.");
 	 		monster["attack"]("DEFENDED");
 		 },
-		DODGE(input) {
+		DODGE() {
 		 	// 1/3 chance of monster's attack missing.
 	 		monster["attack"]("DODGED");
-		 },		 		 		 
+		 },	
+ 		EQUIP(itemName) {
+		 	player1.equip(itemName);
+		 	monster["attack"]();
+		 },
+
 	},
 	shopping: {
 		EXIT() {
