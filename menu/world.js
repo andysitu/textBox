@@ -32,6 +32,30 @@ var player1 = {
 			display("You don't have " + item + ".\n");
 		}
 	},
+	unequip(itemName) {
+		const item = itemName.toLowerCase();
+		if ( this.equipped.indexOf(item) >= 0 ) {
+			this.equipped.splice(this.equipped.indexOf(item), 1);
+			display("You've unequipped " + item + ". \n");
+		} else {
+			display("You don't have " + item + ".\n");
+		}
+	},
+	del(itemName) {
+		const item = itemName.toLowerCase();
+		if ( this.inventory.indexOf(item) >= 0 ) {
+			this.inventory.splice(this.inventory.indexOf(item), 1);
+
+			// also removes item from equipped if it's there.
+			if ( this.equipped.indexOf(item) >= 0 ) {
+				this.equipped.splice([items[item]["slot"]], 1);
+			}
+
+			display("You've removed " + item + ". \n");
+		} else {
+			display("You don't have " + item + ".\n");
+		}
+	},
 
 	equipped: [], // 0: weapons;
 	inventory: [],
@@ -150,7 +174,7 @@ var items = {
 
 
 const displayScreens = {
-	startMenu: "Type \"menu\" for the menu, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.\n",
+	startMenu: "Type \"menu\" for the menu, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store. \"del\" to delete an item, \"equip\" to equip, \"unequip\" to unequip.\n",
 	noCombat: "You're not in combat. Type \"fight\" to do so.\n",
 };
 
@@ -224,6 +248,12 @@ const responseStor = {
 		 },
 		 EQUIP(itemName) {
 		 	player1.equip(itemName);
+		 },
+		 UNEQUIP(itemName) {
+		 	player1.unequip(itemName);
+		 },
+		 DEL(itemName) {
+		 	player1["del"](itemName);
 		 },
 
 		 HELP() {
