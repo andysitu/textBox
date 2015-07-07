@@ -100,12 +100,28 @@ var store = {
 			}
 		})
 	},
+	buyItem(item) {
+		var itemName = item.toLowerCase();
+
+		if (items[itemName]) {
+			if (player1["gold"] >= items[itemName]["cost"]) {
+				player1["gold"] -= items[itemName]["cost"];
+				console.log(itemName);
+			} else {
+				display("You don't have enough gold.");
+			}
+		} else {
+			display("This item doesn't exist.");
+		}
+
+	},
 };
 
 var items = {
 	"sword": {
 		desc: "A dependable sword. First-rate.",
 		cost: 15,
+		slot: 0,
 		attack() {
 			return 10;
 		}
@@ -113,14 +129,12 @@ var items = {
 	"Super Sword": {
 		desc: "A super amazing sword.",
 		cost: 1500,
+		slot: 0,
 		attack() {
 			return 50;
 		}
 	},
-
-	equipped: []
 };
-
 
 
 const displayScreens = {
@@ -139,10 +153,11 @@ const responseStor = {
 				display("You're currently fighting. Please enter another command.\n");
 			}
 		} else if (store["status"]) {
-			if (this["shopping"][input]) {
-				this["shopping"][input]();
+			var result = /(\w*)\s*(\w*)/.exec(input);
+			if (this["shopping"][result[1]]) {
+				this["shopping"][result[1]](result[2]);
 			} else {
-				display("You're currently shopping. Please enter another command.\n");
+				display("The command " + result[1] + " doesn't exist while shopping. Please try again.\n");
 			}
 		} else {
 			if (this["normal"][input]) {
@@ -188,7 +203,7 @@ const responseStor = {
 				display("You're in combat. Come here when it's over!\n");
 			} else {
 				store["displayItems"]();
-				display("Type \"exit\" to exit the store.")
+				display("To buy something, type \"buy [item name]\". Type \"exit\" to exit the store.\n")
 				store["changeStatus"](true);
 			}
 		 },
@@ -222,6 +237,9 @@ const responseStor = {
 		EXIT() {
 			display("You've now exited the item shop.");
 			store["changeStatus"](false);
-		}
+		},
+		BUY(itemName) {
+			store["buyItem"](itemName);
+		},
 	}
 };
