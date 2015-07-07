@@ -125,25 +125,32 @@ var items = {
 
 const displayScreens = {
 	startMenu: "Type \"menu\" for the menu, \"hp\" to see health of player, \"status\" to see status of player, \"fight\" to fight a monster, \"store\" to enter a store.\n",
-	playerStatus: player1["health"],
-	noCombat: "You're not in combat. Type \"fight\" to do so.\n"
+	noCombat: "You're not in combat. Type \"fight\" to do so.\n",
 };
 
 // obj storing functions for response by input of player. 
 const responseStor = {
 
 	checkResponse(input) {
-		if (this["normal"][input]) {
-			if (monster["fightStatus"]) {
+		if (monster["fightStatus"]) {
+			if (this["battle"][input]) {
 				this["battle"][input]();
-			} else if (store["status"]) {
+			} else {
+				display("You're currently fighting. Please enter another command.\n");
+			}
+		} else if (store["status"]) {
+			if (this["shopping"][input]) {
 				this["shopping"][input]();
 			} else {
-			this["normal"][input]();
+				display("You're currently shopping. Please enter another command.\n");
+			}
+		} else {
+			if (this["normal"][input]) {
+				this["normal"][input]();
+			} else {
+				display("The command " + input + " doesn't exist. Please try again.\n");
 			}
 		}
-		else
-			display("The command " + value + " doesn't exist. Please try again.")
 	},
 
 	normal: {
@@ -178,10 +185,11 @@ const responseStor = {
 		 },		 
 		STORE() {
 		 	if (monster["fightStatus"]) {
-		 		changeStatus(true);
 				display("You're in combat. Come here when it's over!\n");
 			} else {
 				store["displayItems"]();
+				display("Type \"exit\" to exit the store.")
+				store["changeStatus"](true);
 			}
 		 },
 
@@ -211,6 +219,9 @@ const responseStor = {
 		 },		 		 		 
 	},
 	shopping: {
-
+		EXIT() {
+			display("You've now exited the item shop.");
+			store["changeStatus"](false);
+		}
 	}
 };
