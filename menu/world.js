@@ -7,10 +7,12 @@ var player1 = {
 	ATTACK() {
 		// if dmg is empty, then it'll be a regular attack
 		if (this.equipped[0]) {
-			monster["health"] -=  Math.ceil(Math.random() * dmg * player1["level"]);
-			return dmg;
+			const weap = this.equipped[0];
+			var damage =  Math.ceil(((Math.random() * items[weap]["damage"] * player1["level"] * 50) + (items[weap]["damage"] * player1["level"] * 50)) / 100);
+			 monster["health"] -= damage;
+			return damage;
 		} else {
-			var damage = Math.ceil(Math.random() * 3 * player1["level"]);
+			var damage = Math.ceil(((Math.random() * items[weap]["damage"] * player1["level"] * 20) + (items[weap]["damage"] * player1["level"] * 80)) / 100);
 			monster["health"] -= damage;
 			return damage;
 		}
@@ -22,7 +24,7 @@ var player1 = {
 		display("Congratulations! You leveled up to " + this.level + ".\n");
 	},
 	equip(itemName) {
-		var item = itemName.toLowerCase();
+		const item = itemName.toLowerCase();
 		if ( this.inventory.indexOf(item) >= 0 ) {
 			this.equipped[items[item]["slot"]] = item;
 			display("You've equipped " + item + ". \n");
@@ -134,19 +136,15 @@ var store = {
 var items = {
 	"sword": {
 		desc: "A dependable sword.",
-		cost: 15,
+		cost: 150,
 		slot: 0,
-		attack() {
-			return 10;
-		}
+		damage: 10,
 	},
 	"super sword": {
 		desc: "A super amazing sword.",
 		cost: 1500,
 		slot: 0,
-		attack() {
-			return 50;
-		}
+		damage: 50,
 	},
 };
 
@@ -234,7 +232,9 @@ const responseStor = {
 	},
 
 	battle: {
-		STATUS() { responseStor["normal"]["STATUS"]() },
+		STATUS() { 
+			responseStor["normal"]["STATUS"]() 
+		},
 		ATTACK() {
 		 	// ATTACK calculates player damge & returns the damage into rewarder method 
 		 	// which checks if monster is dead and rewards the player if it is.
