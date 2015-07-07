@@ -21,6 +21,9 @@ var player1 = {
 		this.exp = 0;
 		display("Congratulations! You leveled up to " + this.level + ".");
 	},
+
+	equipped: [], // 0: weapons;
+	inventory: [],
 };
 
 
@@ -106,7 +109,8 @@ var store = {
 		if (items[itemName]) {
 			if (player1["gold"] >= items[itemName]["cost"]) {
 				player1["gold"] -= items[itemName]["cost"];
-				console.log(itemName);
+				player1["inventory"].push(itemName);
+				display("You've bought a" + itemName + "\n");
 			} else {
 				display("You don't have enough gold.");
 			}
@@ -126,7 +130,7 @@ var items = {
 			return 10;
 		}
 	},
-	"Super Sword": {
+	"super sword": {
 		desc: "A super amazing sword.",
 		cost: 1500,
 		slot: 0,
@@ -153,7 +157,7 @@ const responseStor = {
 				display("You're currently fighting. Please enter another command.\n");
 			}
 		} else if (store["status"]) {
-			var result = /(\w*)\s*(\w*)/.exec(input);
+			var result = /(\w*)\s*([\w\s]*)/.exec(input);
 			if (this["shopping"][result[1]]) {
 				this["shopping"][result[1]](result[2]);
 			} else {
@@ -174,10 +178,15 @@ const responseStor = {
 		 },
 		STATUS(){
 			displayStr("Current Status:", player1, function(value, key, str) {
-				if (typeof value !== "function")
-					return " " + value + " " + key + ",";
-				else
+				if (typeof value !== "function") {
+					if ( key == "equipped" || key == "inventory") {
+						return "\n " + key + ": " + value + " ";
+					} else {
+						return " " + value + " " + key + ",";
+					}
+				} else {
 					return "";
+				}
 			})
 		 },
 		FIGHT() {
@@ -235,7 +244,7 @@ const responseStor = {
 	},
 	shopping: {
 		EXIT() {
-			display("You've now exited the item shop.");
+			display("You've now exited the item shop.\n");
 			store["changeStatus"](false);
 		},
 		BUY(itemName) {
