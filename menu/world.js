@@ -12,7 +12,7 @@ var player1 = {
 			 monster["health"] -= damage;
 			return damage;
 		} else {
-			var damage = Math.ceil(((Math.random() * items[weap]["damage"] * player1["level"] * 20) + (items[weap]["damage"] * player1["level"] * 80)) / 100);
+			var damage = Math.ceil(((Math.random() * 3 * player1["level"] * 20) + (3 * player1["level"] * 80)) / 100);
 			monster["health"] -= damage;
 			return damage;
 		}
@@ -56,6 +56,13 @@ var player1 = {
 			display("You don't have " + item + ".\n");
 		}
 	},
+	attacked(damage) {
+		this.health -= damage;
+		if (this.health <= 0) {
+			display("Sadly, you have died.");
+			dead();
+		}
+	},
 
 	equipped: [], // 0: weapons;
 	inventory: [],
@@ -73,7 +80,7 @@ var monster = {
 	generateMonster() {
 
 		this["level"] = Math.ceil(Math.random() * 4);
-		this["health"] = player1["level"] * this["level"] + player1["level"] * this["level"] * Math.ceil(Math.random() * 0.5);
+		this["health"] = player1["level"] * this["level"] * this["level"] + Math.ceil(player1["level"] * this["level"] * this["level"] * Math.random() * 0.5);
 		this["mana"] = player1["level"] * this["level"] + player1["level"] * this["level"] * Math.ceil(Math.random() * 0.5);
 	},
 
@@ -99,8 +106,8 @@ var monster = {
 	attack(status) {
 		// if player has defender then monster damage is cut by 75% and rounds it up.
 		if (this["health"] > 0) {
-			var damage = Math.ceil((Math.random() * this["level"] * player1["level"] * 25 +
-								this["level"] * player1["level"] + 75) / 80);
+			var damage = Math.ceil((Math.random() * this["level"] * this["level"] * player1["level"] * 25 +
+								this["level"] * this["level"] * player1["level"] + 75) / 100);
 			if (status === "DEFENDED")
 				damage = Math.ceil(damage * 0.25);
 			if (status === "DODGED") {
@@ -113,8 +120,9 @@ var monster = {
 				}
 			}
 
-			player1["health"] -= damage;
 			display("The monster did " + damage + " damage.\n");
+			player1["attacked"](damage);
+
 		}
 	},
 

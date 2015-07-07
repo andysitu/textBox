@@ -66,3 +66,7 @@ function displayStr(startMSG, list, func) {
 
 	display(str.slice(0, -1) + "\n");
 }
+
+function dead() {
+	document.getElementById("area").className = "dead";
+}
